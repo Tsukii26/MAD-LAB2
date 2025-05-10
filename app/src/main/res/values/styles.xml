@@ -1,0 +1,11 @@
+<resources>
+    <!-- Base application theme for Light Mode -->
+    <style name="Theme_NysreynitLab2_Light" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here for light mode -->
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:textColorPrimary">@color/textPrimary</item>
+        <item name="android:buttonStyle">@style/Widget.MaterialComponents.Button</item>
+    </style>
+</resources>

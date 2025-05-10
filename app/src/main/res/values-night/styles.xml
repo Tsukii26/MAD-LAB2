@@ -1,0 +1,11 @@
+<resources>
+    <!-- Base application theme for Dark Mode -->
+    <style name="Theme_NysreynitLab2_Dark" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your theme here for dark mode -->
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:textColorPrimary">@color/textPrimary</item>
+        <item name="android:buttonStyle">@style/Widget.MaterialComponents.Button</item>
+    </style>
+</resources>
