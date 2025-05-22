@@ -1,8 +1,14 @@
 package com.example.nysreynit_lab2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import androidx.activity.EdgeToEdge;
@@ -13,15 +19,19 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
+    private EditText amountEditText, remarkEditText;
+    private RadioGroup currencyRadioGroup;
+    private Spinner categorySpinner;
+    private Button submitButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Set the theme based on dark mode setting
         if (isDarkModeEnabled()) {
-            setTheme(R.style.Theme_NysreynitLab2_Dark);  // Dark theme
+            setTheme(R.style.Theme_NysreynitLab2_Dark);
         } else {
-            setTheme(R.style.Theme_NysreynitLab2_Light);  // Light theme
+            setTheme(R.style.Theme_NysreynitLab2_Light);
         }
 
         EdgeToEdge.enable(this);
@@ -29,16 +39,14 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("DebugLab", "App started successfully!");
 
-        // Example arithmetic operation
-        int num1 = 10;
-        int num2 = 20;
-        int result = num1 + num2;
-        Log.d("DebugLab", "Sum: " + result);
+        // Initialize views
+        amountEditText = findViewById(R.id.amountEditText);
+        remarkEditText = findViewById(R.id.remarkEditText);
+        currencyRadioGroup = findViewById(R.id.currencyRadioGroup);
+        categorySpinner = findViewById(R.id.categorySpinner);
+        submitButton = findViewById(R.id.submitButton);
 
-        // Initialize Spinner
-        Spinner categorySpinner = findViewById(R.id.categorySpinner);
         String[] categories = {"Food", "Transport", "Shopping", "Bills", "Entertainment"};
-
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_spinner_item,
@@ -47,9 +55,49 @@ public class MainActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(adapter);
 
-        Log.d("DebugLab", "Spinner initialized with " + categories.length + " categories");
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        // Adjust padding for system bars
+                // Get amount value
+                String amountStr = amountEditText.getText().toString().trim();
+                double amount = 0;
+                if (!amountStr.isEmpty()) {
+                    try {
+                        amount = Double.parseDouble(amountStr);
+                    } catch (NumberFormatException e) {
+                        amount = 0;
+                    }
+                }
+
+                // Get currency value from selected RadioButton
+                int selectedCurrencyId = currencyRadioGroup.getCheckedRadioButtonId();
+                String currency = "";
+                if (selectedCurrencyId != -1) {
+                    RadioButton selectedRadioButton = findViewById(selectedCurrencyId);
+                    currency = selectedRadioButton.getText().toString();
+                }
+
+
+                String category = categorySpinner.getSelectedItem().toString();
+
+
+                String remark = remarkEditText.getText().toString().trim();
+
+                Log.d("DebugLab", "Expense input: " + amount + " " + currency + ", category: " + category + ", remark: " + remark);
+
+                // Prepare intent to open ResultActivity
+                Intent intent = new Intent(MainActivity.this, ResultActivity.class);
+                intent.putExtra("lastAmount", amount);
+                intent.putExtra("lastCurrency", currency);
+                intent.putExtra("lastCategory", category);
+                intent.putExtra("lastRemark", remark);
+
+                startActivity(intent);
+                finish();
+            }
+        });
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -57,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // Method to check if Dark Mode is enabled
     private boolean isDarkModeEnabled() {
         int nightModeFlags = getResources().getConfiguration().uiMode &
                 android.content.res.Configuration.UI_MODE_NIGHT_MASK;
