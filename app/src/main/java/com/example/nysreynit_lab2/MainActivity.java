@@ -17,6 +17,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 public class MainActivity extends AppCompatActivity {
 
     private EditText amountEditText, remarkEditText;
@@ -58,8 +60,6 @@ public class MainActivity extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                // Get amount value
                 String amountStr = amountEditText.getText().toString().trim();
                 double amount = 0;
                 if (!amountStr.isEmpty()) {
@@ -70,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
-                // Get currency value from selected RadioButton
                 int selectedCurrencyId = currencyRadioGroup.getCheckedRadioButtonId();
                 String currency = "";
                 if (selectedCurrencyId != -1) {
@@ -78,30 +77,47 @@ public class MainActivity extends AppCompatActivity {
                     currency = selectedRadioButton.getText().toString();
                 }
 
-
                 String category = categorySpinner.getSelectedItem().toString();
-
-
                 String remark = remarkEditText.getText().toString().trim();
 
                 Log.d("DebugLab", "Expense input: " + amount + " " + currency + ", category: " + category + ", remark: " + remark);
 
-                // Prepare intent to open ResultActivity
                 Intent intent = new Intent(MainActivity.this, ResultActivity.class);
                 intent.putExtra("lastAmount", amount);
                 intent.putExtra("lastCurrency", currency);
                 intent.putExtra("lastCategory", category);
                 intent.putExtra("lastRemark", remark);
-
                 startActivity(intent);
                 finish();
             }
         });
 
+        // Handle edge insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        // Bottom Navigation View logic
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.nav_home);
+
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.nav_home:
+                    // Already on MainActivity
+                    return true;
+                case R.id.nav_add:
+                    startActivity(new Intent(MainActivity.this, ExpenseDetailActivity.class));
+                    overridePendingTransition(0, 0);
+                    return true;
+                case R.id.nav_list:
+                    startActivity(new Intent(MainActivity.this, ListActivity.class));
+                    overridePendingTransition(0, 0);
+                    return true;
+            }
+            return false;
         });
     }
 
