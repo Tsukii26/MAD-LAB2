@@ -3,4 +3,9 @@
     <color name="textPrimary">#000000</color> <!-- Black -->
     <color name="buttonBackground">#FFFFFF</color> <!-- White -->
     <color name="buttonText">#388E3C</color> <!-- Green -->
+    <color name="teal_700">#018786</color> <!-- Teal -->
+    <color name="primaryColor">#6200EE</color> <!-- Purple-ish -->
+    <color name="white">#FFFFFF</color>
+    <color name="textSecondary">#757575</color>
+    <color name="darker_gray">#A9A9A9</color>
 </resources>

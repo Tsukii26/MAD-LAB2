@@ -1,17 +1,31 @@
-package com.example.nysreynit_lab2; // ✅ Add your package name here
+package com.example.nysreynit_lab2;
 
 public class Expense {
-    public double amount;
-    public String currency;
-    public String date;
-    public String category;
-    public String remark;
+    private double amount;
+    private String currency;
+    private String category;
+    private String remark;
 
-    public Expense(double amount, String currency, String date, String category, String remark) {
+    public Expense(double amount, String currency, String category, String remark) {
         this.amount = amount;
         this.currency = currency;
-        this.date = date;
         this.category = category;
         this.remark = remark;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public String getRemark() {
+        return remark;
     }
 }

@@ -7,8 +7,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 public class ExpenseDetailActivity extends AppCompatActivity {
 
     private TextView amountTextView, currencyTextView, categoryTextView, remarkTextView, dateTextView;
@@ -29,6 +27,7 @@ public class ExpenseDetailActivity extends AppCompatActivity {
         addNewExpenseButton = findViewById(R.id.addNewExpenseButton);
         backToHomeButton = findViewById(R.id.backToHomeButton);
 
+
         double amount = getIntent().getDoubleExtra("lastAmount", 0);
         String currency = getIntent().getStringExtra("lastCurrency");
         if (currency == null) currency = "";
@@ -42,12 +41,14 @@ public class ExpenseDetailActivity extends AppCompatActivity {
         String createdDate = getIntent().getStringExtra("createdDate");
         if (createdDate == null) createdDate = "";
 
+        // Set TextViews with consistent labels
         amountTextView.setText("Amount: " + amount);
         currencyTextView.setText("Currency: " + currency);
         categoryTextView.setText("Category: " + category);
         remarkTextView.setText("Remark: " + remark);
         dateTextView.setText("Created Date: " + createdDate);
 
+        // Button click listeners
         addNewExpenseButton.setOnClickListener(v -> {
             Intent intent = new Intent(ExpenseDetailActivity.this, MainActivity.class);
             startActivity(intent);
@@ -58,29 +59,6 @@ public class ExpenseDetailActivity extends AppCompatActivity {
             Intent intent = new Intent(ExpenseDetailActivity.this, ResultActivity.class);
             startActivity(intent);
             finish();
-        });
-
-        // ✅ Bottom Navigation setup
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setSelectedItemId(R.id.nav_add);
-
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            int itemId = item.getItemId();
-            if (itemId == R.id.nav_home) {
-                startActivity(new Intent(this, MainActivity.class));
-                overridePendingTransition(0, 0);
-                finish();
-                return true;
-            } else if (itemId == R.id.nav_add) {
-                // Already in this activity
-                return true;
-            } else if (itemId == R.id.nav_list) {
-                startActivity(new Intent(this, ListActivity.class));
-                overridePendingTransition(0, 0);
-                finish();
-                return true;
-            }
-            return false;
         });
     }
 }

@@ -1,4 +1,4 @@
-package com.example.nysreynit_lab2; // ✅ Add your package name here
+package com.example.nysreynit_lab2;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,10 +12,10 @@ import java.util.List;
 
 public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseViewHolder> {
 
-    private final List<Expense> expenseList;
+    private final List<Expense> expenses;
 
-    public ExpenseAdapter(List<Expense> expenseList) {
-        this.expenseList = expenseList;
+    public ExpenseAdapter(List<Expense> expenses) {
+        this.expenses = expenses;
     }
 
     @NonNull
@@ -28,29 +28,26 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
 
     @Override
     public void onBindViewHolder(@NonNull ExpenseViewHolder holder, int position) {
-        Expense expense = expenseList.get(position);
-        holder.tvAmount.setText("Amount: " + expense.amount);
-        holder.tvCurrency.setText("Currency: " + expense.currency);
-        holder.tvDate.setText("Date: " + expense.date);
-        holder.tvCategory.setText("Category: " + expense.category);
-        holder.tvRemark.setText("Remark: " + expense.remark);
+        Expense expense = expenses.get(position);
+        holder.amountText.setText(String.format("%.2f %s", expense.getAmount(), expense.getCurrency()));
+        holder.categoryText.setText(expense.getCategory());
+        holder.remarkText.setText(expense.getRemark());
     }
 
     @Override
     public int getItemCount() {
-        return expenseList.size();
+        return expenses.size();
     }
 
     static class ExpenseViewHolder extends RecyclerView.ViewHolder {
-        TextView tvAmount, tvCurrency, tvDate, tvCategory, tvRemark;
+
+        TextView amountText, categoryText, remarkText;
 
         public ExpenseViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvAmount = itemView.findViewById(R.id.tvAmount);
-            tvCurrency = itemView.findViewById(R.id.tvCurrency);
-            tvDate = itemView.findViewById(R.id.tvDate);
-            tvCategory = itemView.findViewById(R.id.tvCategory);
-            tvRemark = itemView.findViewById(R.id.tvRemark);
+            amountText = itemView.findViewById(R.id.tvAmount);
+            categoryText = itemView.findViewById(R.id.tvCategory);
+            remarkText = itemView.findViewById(R.id.tvRemark);
         }
     }
 }

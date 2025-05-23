@@ -1,5 +1,4 @@
-
-package com.example.nysreynit_lab2;;
+package com.example.nysreynit_lab2;
 
 import android.content.Intent;
 import android.os.Bundle;
